@@ -6,4 +6,4 @@ essai
 
 Voici une capture d’écran de l’interface utilisateur :
 
-(tp3_project/screen/screen.png)
+![Interface Django](tp3_project/screen/screen.png)
