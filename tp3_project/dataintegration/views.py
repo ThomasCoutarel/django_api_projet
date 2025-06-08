@@ -20,6 +20,8 @@ import pandas as pd
 import numpy as np
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
+
 
 
 @api_view(['GET'])
@@ -382,6 +384,7 @@ def top_products_from_datalake(request, topic_name):
 
     return Response([{"product_id": pid, "total_quantity": qty} for pid, qty in top])
 
+
 @api_view(['GET'])
 def get_versioned_data_view(request, topic_name):
     version = request.query_params.get('version')
@@ -405,3 +408,19 @@ def get_versioned_data_view(request, topic_name):
                 print(f"Erreur lors de la lecture de {file_path} : {e}")
 
     return Response(all_data, status=status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_datalake_resources(request):
+    try:
+        if not os.path.exists(DATA_LAKE_PATH):
+            return Response({"resources": []})
+        resources = [
+            folder for folder in os.listdir(DATA_LAKE_PATH)
+            if os.path.isdir(os.path.join(DATA_LAKE_PATH, folder))
+        ]
+        return Response({"resources": resources})
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)

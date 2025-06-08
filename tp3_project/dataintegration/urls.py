@@ -21,5 +21,6 @@ urlpatterns = [
     path('datalake/total_spent_by_user/<str:topic_name>/', views.total_spent_by_user_from_datalake),
     path('datalake/top_products/<str:topic_name>/', views.top_products_from_datalake),
     path('datalake/version/<str:topic_name>/', views.get_versioned_data_view, name='get_versioned_data'),
+    path('datalake/resources/', views.list_datalake_resources, name='list_datalake_resources'),
 
 ]
